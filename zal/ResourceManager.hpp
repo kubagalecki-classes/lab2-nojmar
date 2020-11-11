@@ -16,6 +16,11 @@ public:
         this->resource = new Resource{*rm2.getResource()};
     }
     
+    ResourceManager(ResourceManager &&rm2){
+        this->resource = rm2.getResource();
+        rm2.resource = nullptr;
+    }
+    
     ~ResourceManager(){
         delete resource;
     }
@@ -27,6 +32,20 @@ public:
         }
         delete resource;
         this->resource = new Resource{*rm2.getResource()};
+
+        return *this;
+    }
+    
+    ResourceManager& operator=( ResourceManager &&rm2){
+      
+        if (this == &rm2) {
+            return *this;
+        }
+        
+        delete resource;
+        this->resource = rm2.getResource();
+        
+        rm2.resource = nullptr;
 
         return *this;
     }
